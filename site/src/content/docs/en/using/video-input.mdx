@@ -25,13 +25,12 @@ without encoding it again.
 
 ## DJI Goggles 3 - USB-A
 
-Select **DJI Goggles 3 - USB-A** under Input. This receiver is an experimental
+Select **DJI Goggles 3 - USB-A** under Input. This receiver is
 video-only source: camera controls, battery and link quality are
 not available. H.264 goes to HDMI, Watch, recordings and network streams without
 re-encoding.
 
-Connect the goggles to a Pi **USB-A** port using a data cable and enable or
-select **Sharing live view** on the goggles. The goggles
+Connect the goggles to a Pi **USB-A** port using a data cable and enable **Sharing live view** on the goggles. The goggles
 must expose the DJI USB network device `2ca3:0020`. Openstreamer finds its
 interface automatically, configures `192.168.60.1/24` and contacts
 `192.168.60.2:9003`.
