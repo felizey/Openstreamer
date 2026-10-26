@@ -5,6 +5,7 @@
 # Openstreamer
 
 Openstreamer is a fork of YStreamer with changes to its functionality.
+All functionality is written using AI and tested on Raspberry Pi 4B.
 
 **Your FPV feed, on every screen.**
 
