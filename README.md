@@ -27,9 +27,7 @@ and recordings - all at once, set up from a web interface.
 ## What it does
 
 Plug your goggles into a Raspberry Pi 4 and everyone else gets to see what you
-see. The standard DJI goggles source uses USB-C. A separate experimental
-**DJI Goggles 3 - USB-A** source uses a USB-A network connection.
-Enable **Sharing live view** in the goggles. Every source feeds the outputs at the same time:
+see.
 
 - **HDMI** - the feed on a TV, monitor or projector.
 - **Any browser** - live view on phones and laptops, over WebRTC or WebSocket.
