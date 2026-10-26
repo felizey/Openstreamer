@@ -1,0 +1,88 @@
+---
+title: Línea de comandos
+description: El comando openstreamer, para revisar y arreglar el dispositivo por SSH.
+order: 40
+---
+
+import Admonition from "../../../../components/docs/Admonition.astro";
+
+En el dispositivo, por [SSH](/docs/network/security) o con un teclado
+conectado, el comando `openstreamer` revisa el servicio y arregla lo que te
+dejaría fuera de la interfaz web.
+
+```sh
+openstreamer help
+```
+
+| Comando                           | Qué hace                                                             |
+| --------------------------------- | -------------------------------------------------------------------- |
+| `openstreamer status`                | Si Openstreamer está funcionando, y las direcciones que abrir           |
+| `openstreamer logs`                  | Las últimas 200 líneas de su registro                                |
+| `openstreamer logs -f`               | Las últimas 50 líneas, y luego sigue mostrando las nuevas            |
+| `sudo openstreamer restart`          | Reinicia Openstreamer                                                   |
+| `sudo openstreamer password`         | Pone la contraseña de la interfaz web                                |
+| `sudo openstreamer password --clear` | Quita la contraseña de la interfaz web                               |
+| `sudo openstreamer reset`            | Devuelve todos los ajustes y la contraseña a los valores por defecto |
+| `openstreamer version`               | La versión instalada                                                 |
+
+`restart`, `password` y `reset` necesitan `sudo`.
+
+## Estado
+
+```sh
+openstreamer status
+```
+
+```
+Openstreamer 0.1.9
+Service:        running
+Web interface:  http://openstreamer.local  http://192.168.1.50
+Password:       run with sudo to see
+```
+
+Con `sudo`, también dice si hay una contraseña puesta. Si el servicio está
+ejecutando una versión distinta de la instalada, por ejemplo a mitad de una
+actualización, lo indica.
+
+## Contraseña
+
+```sh
+sudo openstreamer password
+```
+
+Pide la contraseña nueva dos veces, sin mostrarla. Al menos 6 caracteres.
+Tiene efecto al momento, y los navegadores que tenían la sesión iniciada
+tienen que volver a iniciarla. `--clear` quita la contraseña.
+
+Para un script, pásale la contraseña en una sola línea:
+
+```sh
+echo 'new-password' | sudo openstreamer password
+```
+
+<Admonition type="tip" title="¿Te has quedado fuera?">
+  Es la forma más rápida de arreglar una contraseña olvidada, si todavía llegas
+  al dispositivo por SSH.
+</Admonition>
+
+## Restablecer
+
+```sh
+sudo openstreamer reset
+```
+
+Devuelve todos los ajustes y la contraseña de la interfaz web a los valores
+por defecto, tras preguntar antes; `--yes` se salta la pregunta. Openstreamer se
+reinicia con los valores por defecto, y los ajustes de red también vuelven a
+ellos.
+
+Se conservan las grabaciones, el logo y la imagen de inicio. Los ajustes
+anteriores se guardan como `settings.before-reset.json`. Ver
+[copia de seguridad y restablecimiento](/docs/maintenance/backup-and-reset)
+para las otras formas de restablecer.
+
+## openstreamer run
+
+`openstreamer run` es el propio Openstreamer, el programa que inicia el servicio del
+sistema. No lo ejecutes a mano: usa `sudo openstreamer restart`. Solo,
+`openstreamer` muestra la ayuda.

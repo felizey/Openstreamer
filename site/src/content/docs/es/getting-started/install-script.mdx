@@ -1,0 +1,27 @@
+---
+title: Instalar un paquete local
+description: Instala el paquete de prueba de Openstreamer suministrado en Raspberry Pi OS Lite.
+order: 40
+---
+
+Usa **Raspberry Pi OS Lite (64 bits, Debian 13 "Trixie")** en una Raspberry Pi 4. Desactiva el escritorio que se inicia al arrancar para permitir la salida HDMI.
+
+No hay un repositorio apt de paquetes. Copia el paquete de prueba `.deb` suministrado a la Pi, abre un terminal en ese directorio y ejecuta:
+
+```sh
+sudo apt install ./openstreamer_*.deb
+```
+
+Reinicia si se solicita y abre `http://<hostname>.local` o la dirección IP de la Pi. El nombre compatible del paquete y del servicio es `openstreamer`.
+
+## Ejecutarlo de nuevo
+
+Para otra compilación de prueba, instala su paquete `.deb` del mismo modo. Los ajustes y las grabaciones se guardan en `/var/lib/openstreamer`.
+
+## Desinstalar
+
+```sh
+sudo apt remove openstreamer
+```
+
+`sudo apt purge openstreamer` también elimina los ajustes y la contraseña web. Guarda una copia de grabaciones y ajustes antes de eliminar paquetes.

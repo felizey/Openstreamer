@@ -1,0 +1,292 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+  --color-bg: 252, 252, 252;
+  --color-text: 24, 24, 24;
+  --color-text-muted: 100, 100, 100;
+  --color-text-light: 100, 100, 100;
+  --color-primary: 24, 24, 24;
+  --color-primary-hover: 64, 64, 64;
+  --color-brand: 64, 64, 64;
+  --color-button: 24, 24, 24;
+  --color-button-hover: 64, 64, 64;
+  --color-button-text: 255, 255, 255;
+  --color-secondary: 242, 242, 242;
+  --color-secondary-hover: 229, 229, 229;
+  --color-accent: 82, 82, 82;
+  --color-rec: 64, 64, 64;
+  --color-accent-hover: 38, 38, 38;
+  --color-danger: 38, 38, 38;
+  --color-success: 64, 64, 64;
+  --color-border: 220, 220, 220;
+  --color-card-bg: 255, 255, 255;
+  --color-card-shadow: 0, 0, 0, 0.05;
+  --color-header-bg: 255, 255, 255;
+  --color-footer-bg: 245, 245, 245;
+  --color-code-bg: 245, 245, 245;
+  --color-code-border: 224, 224, 224;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    color-scheme: dark;
+    --color-bg: 17, 17, 17;
+    --color-text: 245, 245, 245;
+    --color-text-muted: 163, 163, 163;
+    --color-text-light: 163, 163, 163;
+    --color-primary: 245, 245, 245;
+    --color-primary-hover: 212, 212, 212;
+    --color-brand: 212, 212, 212;
+    --color-button: 245, 245, 245;
+    --color-button-hover: 212, 212, 212;
+    --color-button-text: 17, 17, 17;
+    --color-secondary: 38, 38, 38;
+    --color-secondary-hover: 55, 55, 55;
+    --color-accent: 191, 191, 191;
+    --color-rec: 212, 212, 212;
+    --color-accent-hover: 229, 229, 229;
+    --color-danger: 229, 229, 229;
+    --color-success: 212, 212, 212;
+    --color-border: 64, 64, 64;
+    --color-card-bg: 24, 24, 24;
+    --color-card-shadow: 0, 0, 0, 0.2;
+    --color-header-bg: 17, 17, 17;
+    --color-footer-bg: 17, 17, 17;
+    --color-code-bg: 24, 24, 24;
+    --color-code-border: 64, 64, 64;
+  }
+}
+
+:root.dark {
+  color-scheme: dark;
+  --color-bg: 17, 17, 17;
+  --color-text: 245, 245, 245;
+  --color-text-muted: 163, 163, 163;
+  --color-text-light: 163, 163, 163;
+  --color-primary: 245, 245, 245;
+  --color-primary-hover: 212, 212, 212;
+  --color-brand: 212, 212, 212;
+  --color-button: 245, 245, 245;
+  --color-button-hover: 212, 212, 212;
+  --color-button-text: 17, 17, 17;
+  --color-secondary: 38, 38, 38;
+  --color-secondary-hover: 55, 55, 55;
+  --color-accent: 191, 191, 191;
+  --color-rec: 212, 212, 212;
+  --color-accent-hover: 229, 229, 229;
+  --color-danger: 229, 229, 229;
+  --color-success: 212, 212, 212;
+  --color-border: 64, 64, 64;
+  --color-card-bg: 24, 24, 24;
+  --color-card-shadow: 0, 0, 0, 0.2;
+  --color-header-bg: 17, 17, 17;
+  --color-footer-bg: 17, 17, 17;
+  --color-code-bg: 24, 24, 24;
+  --color-code-border: 64, 64, 64;
+}
+
+@font-face {
+  font-family: "Atkinson";
+  src: url("/fonts/atkinson-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Atkinson";
+  src: url("/fonts/atkinson-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  html {
+    font-family: "Atkinson", system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(var(--color-bg));
+    color: rgb(var(--color-text));
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
+  }
+
+  input,
+  select {
+    outline: none;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.2;
+  }
+
+  a {
+    color: rgb(var(--color-primary));
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  a:hover {
+    color: rgb(var(--color-primary-hover));
+  }
+
+  button:hover {
+    cursor: pointer;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  code {
+    font-family:
+      ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    background-color: rgb(var(--color-code-bg));
+    border: 1px solid rgb(var(--color-code-border));
+    padding: 0.1em 0.35em;
+    border-radius: 0.3rem;
+    font-size: 0.875em;
+  }
+
+  pre {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    background-color: rgb(var(--color-code-bg));
+    border: 1px solid rgb(var(--color-code-border));
+  }
+
+  pre code {
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+  }
+
+  main {
+    flex: 1;
+    width: 100%;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(var(--color-secondary));
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--color-text-muted));
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--color-primary));
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgb(var(--color-primary));
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.4rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+.btn-primary {
+  color: rgb(var(--color-button-text));
+  background: rgb(var(--color-button));
+}
+.btn-primary:hover {
+  color: rgb(var(--color-button-text));
+  background: rgb(var(--color-button-hover));
+}
+.btn-ghost {
+  color: rgb(var(--color-text));
+  border: 1px solid rgb(var(--color-border));
+}
+.btn-ghost:hover {
+  color: rgb(var(--color-text));
+  background: rgb(var(--color-secondary));
+}
+
+.card {
+  border-radius: 1rem;
+  border: 1px solid rgb(var(--color-border));
+  background: rgb(var(--color-card-bg));
+}
+.icon-tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.75rem;
+  color: rgb(var(--color-primary));
+  background: rgba(var(--color-brand), 0.1);
+}
+
+.astro-code,
+.astro-code span {
+  color: var(--shiki-light);
+  font-style: var(--shiki-light-font-style);
+  font-weight: var(--shiki-light-font-weight);
+}
+.astro-code {
+  background-color: rgb(var(--color-code-bg)) !important;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) .astro-code,
+  :root:not(.light) .astro-code span {
+    color: var(--shiki-dark);
+    font-style: var(--shiki-dark-font-style);
+    font-weight: var(--shiki-dark-font-weight);
+  }
+}
+:root.dark .astro-code,
+:root.dark .astro-code span {
+  color: var(--shiki-dark);
+  font-style: var(--shiki-dark-font-style);
+  font-weight: var(--shiki-dark-font-weight);
+}
+
+.brand-name {
+  display: inline-block;
+  color: rgb(var(--color-text));
+}
+.brand-name::first-letter {
+  color: rgb(var(--color-primary));
+}

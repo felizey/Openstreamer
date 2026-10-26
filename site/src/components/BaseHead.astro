@@ -1,0 +1,125 @@
+---
+import "../styles/global.css";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  lang?: string;
+}
+
+const canonicalURL = Astro.site ? new URL(Astro.url.pathname, Astro.site) : undefined;
+const { title, description, image = "/og.png", lang = "en" } = Astro.props;
+
+const normalizedPath = Astro.url.pathname.replace(/^\/(en|es|uk)(?=\/|$)/, "");
+const locales = ["en", "es", "uk"];
+const altHref = (code: string) =>
+  `/${code}${normalizedPath === "" ? "/" : normalizedPath}`;
+
+const siteURL = Astro.site?.href;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      name: SITE_TITLE,
+      url: siteURL,
+      description: SITE_DESCRIPTION,
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: SITE_TITLE,
+      url: siteURL,
+      description: SITE_DESCRIPTION,
+      applicationCategory: "MultimediaApplication",
+      operatingSystem: "Raspberry Pi OS Lite (64-bit)",
+      softwareRequirements: "Raspberry Pi 4 Model B",
+      license: "https://www.gnu.org/licenses/gpl-3.0.html",
+      keywords:
+        "FPV, DJI Goggles, Raspberry Pi, HDMI, RTSP, SRT, RTMP, live stream, recording, drone",
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+      },
+    },
+  ],
+};
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+<meta
+  name="theme-color"
+  media="(prefers-color-scheme: light)"
+  content="#fcfcfc"
+/>
+<meta
+  name="theme-color"
+  media="(prefers-color-scheme: dark)"
+  content="#111111"
+/>
+
+<script is:inline>
+  (function () {
+    const saved = localStorage.getItem("theme-preference");
+    if (saved === "light") {
+      document.documentElement.classList.add("light");
+      document.documentElement.classList.remove("dark");
+    } else if (saved === "dark") {
+      document.documentElement.classList.add("dark");
+      document.documentElement.classList.remove("light");
+    }
+  })();
+</script>
+
+<link
+  rel="preload"
+  href="/fonts/atkinson-regular.woff2"
+  as="font"
+  type="font/woff2"
+  crossorigin
+/>
+<link
+  rel="preload"
+  href="/fonts/atkinson-bold.woff2"
+  as="font"
+  type="font/woff2"
+  crossorigin
+/>
+
+{canonicalURL && <link rel="canonical" href={canonicalURL} />}
+
+{locales.map((code) => (
+  <link rel="alternate" hreflang={code} href={altHref(code)} />
+))}
+<link rel="alternate" hreflang="x-default" href={altHref("en")} />
+
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+
+<meta property="og:type" content="website" />
+<meta property="og:url" content={Astro.url} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={new URL(image, Astro.url)} />
+<meta property="og:site_name" content={SITE_TITLE} />
+<meta
+  property="og:locale"
+  content={lang === "es" ? "es_ES" : lang === "uk" ? "uk_UA" : "en_US"}
+/>
+
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={new URL(image, Astro.url)} />
+
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify(jsonLd)}
+  is:inline
+/>

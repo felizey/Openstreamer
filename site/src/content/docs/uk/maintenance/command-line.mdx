@@ -1,0 +1,87 @@
+---
+title: Командний рядок
+description: Команда openstreamer — щоб перевіряти й виправляти пристрій через SSH.
+order: 40
+---
+
+import Admonition from "../../../../components/docs/Admonition.astro";
+
+На пристрої, через [SSH](/docs/network/security) або з підключеною
+клавіатурою, команда `openstreamer` перевіряє сервіс і виправляє те, що могло б
+відрізати тебе від вебінтерфейсу.
+
+```sh
+openstreamer help
+```
+
+| Команда                           | Що робить                                         |
+| --------------------------------- | ------------------------------------------------- |
+| `openstreamer status`                | Чи працює Openstreamer і які адреси відкривати       |
+| `openstreamer logs`                  | Останні 200 рядків журналу                        |
+| `openstreamer logs -f`               | Останні 50 рядків, а потім стежить за новими      |
+| `sudo openstreamer restart`          | Перезапускає Openstreamer                            |
+| `sudo openstreamer password`         | Встановлює пароль вебінтерфейсу                   |
+| `sudo openstreamer password --clear` | Прибирає пароль вебінтерфейсу                     |
+| `sudo openstreamer reset`            | Повертає всі налаштування й пароль до стандартних |
+| `openstreamer version`               | Встановлена версія                                |
+
+`restart`, `password` і `reset` потребують `sudo`.
+
+## Стан
+
+```sh
+openstreamer status
+```
+
+```
+Openstreamer 0.1.9
+Service:        running
+Web interface:  http://openstreamer.local  http://192.168.1.50
+Password:       run with sudo to see
+```
+
+Із `sudo` команда також показує, чи встановлено пароль. Якщо сервіс працює на
+іншій версії, ніж встановлена, наприклад посеред оновлення, вона про це
+скаже.
+
+## Пароль
+
+```sh
+sudo openstreamer password
+```
+
+Двічі питає новий пароль, не показуючи його. Щонайменше 6 символів. Діє
+одразу, і браузерам, які були в системі, доведеться увійти знову. `--clear`
+натомість прибирає пароль.
+
+Для скрипта передай пароль одним рядком:
+
+```sh
+echo 'new-password' | sudo openstreamer password
+```
+
+<Admonition type="tip" title="Не можеш увійти?">
+  Це найшвидший спосіб розв'язати проблему забутого пароля, якщо до пристрою ще
+  можна дістатися через SSH.
+</Admonition>
+
+## Скидання
+
+```sh
+sudo openstreamer reset
+```
+
+Повертає всі налаштування й пароль вебінтерфейсу до стандартних, спершу
+запитавши; `--yes` пропускає запитання. Openstreamer перезапускається зі
+стандартними налаштуваннями, і мережеві налаштування теж повертаються до
+них.
+
+Записи, логотип і заставка зберігаються. Попередні налаштування зберігаються
+як `settings.before-reset.json`. Інші способи скидання дивись у розділі
+[резервна копія та скидання](/docs/maintenance/backup-and-reset).
+
+## openstreamer run
+
+`openstreamer run` — це сам Openstreamer, програма, яку запускає системний сервіс.
+Не запускай її вручну: використовуй `sudo openstreamer restart`. Сама по собі
+команда `openstreamer` показує довідку.

@@ -1,0 +1,13 @@
+**/node_modules
+**/.pnpm-store
+**/target
+**/.git
+**/.astro
+**/.wrangler
+**/.verification
+**/__pycache__
+**/*.log
+image/.pi-gen-openstreamer-test
+image/deploy
+site
+device/frontend/dist

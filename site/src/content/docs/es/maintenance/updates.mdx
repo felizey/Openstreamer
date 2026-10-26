@@ -1,0 +1,23 @@
+---
+title: Actualizaciones
+description: Instalar un paquete local firmado de Openstreamer y volver a la versión anterior.
+order: 10
+---
+
+Todo está en **System → Updates**. Se conservan los ajustes, la contraseña y las grabaciones.
+
+Pulsa **Check now** para consultar la última versión estable del [repositorio público de Openstreamer en GitHub](https://github.com/felizey/Openstreamer/releases). La página enlaza los archivos firmados adjuntos a la versión; no los instala automáticamente. El navegador que abre Openstreamer debe poder acceder a GitHub.
+
+## Instalar desde archivos
+
+1. Selecciona un archivo firmado `.osupd` compatible en **Install from file**. También se acepta la pareja `.deb` y `.sig`.
+2. Espera la verificación de la firma y pulsa **Install**.
+
+El vídeo, los streams y las grabaciones se detienen mientras Openstreamer se reinicia. Mantén la alimentación hasta que la página se recargue. Se rechazan firmas no válidas. Si la nueva versión no arranca, se restaura automáticamente el paquete anterior.
+
+## Volver atrás
+
+**Previous version → Roll back** instala la versión anterior. Otro rollback vuelve a la más reciente.
+
+Los paquetes firmados usan la clave de actualización de Openstreamer. Instala
+solo paquetes compatibles firmados con esa clave.

@@ -1,0 +1,54 @@
+---
+title: Pantalla de inicio y logo
+description: Qué se muestra mientras no hay vídeo, y cómo poner un logo en la imagen.
+order: 50
+---
+
+import Admonition from "../../../../components/docs/Admonition.astro";
+
+## Pantalla de inicio
+
+Mientras no hay vídeo, Openstreamer envía en su lugar una pantalla de inicio: al
+HDMI, a los navegadores y a los streams. Las grabaciones no la incluyen.
+
+Por defecto muestra cómo llegar al dispositivo: sus direcciones, el nombre y
+la contraseña del punto de acceso, y un código QR para unirse.
+
+En **Display → Splash screen**:
+
+| Ajuste                               | Qué hace                                                                           |
+| ------------------------------------ | ---------------------------------------------------------------------------------- |
+| Upload image                         | Tu propia imagen en lugar de la predeterminada. **Use default** vuelve a esta.     |
+| Image scaling                        | **Fit** o **Fill**, para tu imagen.                                                |
+| Show status over custom image        | Mantiene las direcciones y el estado de la conexión en la parte inferior.          |
+| Show access point password on screen | Desactivado, oculta la contraseña y el código QR.                                  |
+| Freeze on last frame                 | Cuando se corta el vídeo, mantiene la última imagen en su lugar.                   |
+| Grayscale frozen frame               | Muestra la imagen congelada en gris, para que no se confunda con vídeo en directo. |
+
+<Admonition type="tip">
+  En un lugar público, desactiva **Show access point password on screen**, o
+  cambia la contraseña en **Network**.
+</Admonition>
+
+## Vídeo de inicio
+
+**Upload video** acepta vídeos locales compatibles con FFmpeg, hasta **256 MiB** y **5 minutos**. Un **MP4 de entrada debe tener vídeo H.264**. Después del progreso de transferencia se procesa el archivo en el dispositivo; espera a que termine.
+
+El resultado es un **MP4 sin sonido, H.264 High Profile, 1920×1080, 30 FPS**, con objetivo de **4 Mbit/s**, **sin fotogramas B** y un fotograma clave cada segundo. Se repite mientras no hay señal en directo. Un error conserva la pantalla anterior.
+
+**Freeze on last frame** tiene prioridad al perder la señal. Desactívalo para volver al clip. El escalado de imagen y la superposición de estado corresponden a imágenes, no al vídeo.
+
+## Logo
+
+En **Display → Logo**, suelta una imagen: PNG, WebP o JPEG, con la
+transparencia conservada. Luego arrástrala a donde la quieras en la vista
+previa y arrastra su esquina para cambiar el tamaño, o usa el control
+**Size**. **Opacity** va del 10 al 100 %, y **Show logo** lo activa y
+desactiva sin quitarlo.
+
+Dónde aparece el logo depende de la fuente:
+
+- **Gafas DJI**: solo en el **HDMI** y en la vista del navegador. Los streams y
+  las grabaciones llevan el vídeo propio de las gafas, sin tocar.
+- **Cámara USB**: en el propio vídeo, así que en todas las salidas y en las
+  grabaciones.

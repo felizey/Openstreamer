@@ -1,0 +1,82 @@
+---
+title: Entrada de vídeo
+description: Elige la fuente de vídeo - gafas DJI, las primeras gafas FPV o una cámara USB.
+order: 20
+---
+
+import Admonition from "../../../../components/docs/Admonition.astro";
+
+Elige la fuente en **Input → Video source**. Se usa una a la vez.
+
+## Gafas DJI
+
+Para **Goggles 2, Integra, Goggles 3 y N3**. Conéctalas al puerto **USB-C** de
+la Pi con un cable USB-C de datos. Recibes el vídeo, los
+[ajustes de cámara](/docs/using/camera-settings) de la unidad aérea, la
+batería de las gafas y la calidad del enlace.
+
+El vídeo es el propio stream H.264 de las gafas. Openstreamer lo reenvía tal
+cual, sin volver a codificarlo.
+
+<Admonition type="tip" title="Sin OSD en el vídeo">
+  Para que el OSD no salga en el vídeo, desactiva **Camera View Recording** en
+  las gafas, en Settings → Camera → Advanced Camera Settings.
+</Admonition>
+
+## DJI Goggles 3 - USB-A
+
+Elige **DJI Goggles 3 - USB-A** en Input. Este receptor es una fuente
+experimental, solo de vídeo: sin ajustes de cámara, batería ni calidad del
+enlace. H.264 se reenvía a HDMI, Watch, grabaciones y streams sin recodificar.
+
+Conecta las gafas a **USB-A** con un cable de datos y activa o selecciona
+**Sharing live view** en las gafas. Deben aparecer como
+dispositivo de red DJI `2ca3:0020`. Openstreamer busca su interfaz,
+configura `192.168.60.1/24` y contacta con `192.168.60.2:9003`.
+
+Deja **Network interface** vacío para la selección automática, o introduce el
+nombre de la interfaz de red USB de DJI en Linux para elegirla explícitamente.
+Esta implementación independiente utiliza el comportamiento observado del
+transporte de red USB. Aún necesita pruebas con unas Goggles 3 reales.
+
+
+## FPV Goggles V1 / V2
+
+Las primeras DJI FPV Goggles. Conéctalas a uno de los puertos **USB-A** de la
+Pi. Solo vídeo: sin ajustes de cámara, batería ni calidad del enlace.
+
+<Admonition type="warning" title="Experimental">
+  Los mantenedores aún no han probado esta fuente en hardware real.
+</Admonition>
+
+La tarjeta muestra lo que detecta:
+
+- **Receiving video**: llega vídeo.
+- **Goggles found, no video yet**: enciende la aeronave y espera a que haya
+  imagen en las gafas.
+- **No goggles found**: revisa el cable y el puerto.
+
+## Cámara USB
+
+Webcams, capturadoras HDMI y receptores analógicos, en uno de los puertos
+**USB-A**.
+
+| Ajuste             | Qué hace                                                                      |
+| ------------------ | ----------------------------------------------------------------------------- |
+| Device             | Qué cámara. **First one found** usa la que esté conectada.                    |
+| Resolution         | Un modo que ofrezca la cámara. **Best available** llega hasta 1080p a 30 fps. |
+| Bitrate (kbit/s)   | De 500 a 20000. Unos 6000 para 1080p, 2500 para un receptor analógico.        |
+| Keyframe every (s) | De 1 a 10. Cuanto más corto, antes empiezan los reproductores al conectarse.  |
+
+**Refresh** vuelve a buscar cámaras después de conectar una.
+
+La imagen de la cámara se codifica a H.264 con el codificador por hardware de
+la Pi. Una cámara que ya envía H.264 se reenvía tal cual, con su propia tasa
+de bits.
+
+<Admonition type="info" title="Codificación por software">
+  Si el codificador por hardware no está disponible, la página Input lo indica y
+  la codificación pasa a la CPU, a 720p como máximo. Normalmente se debe a poca
+  memoria de vídeo: añade `gpu_mem=256` a `/boot/firmware/config.txt` y
+  reinicia. La imagen y el script de instalación ya lo configuran.
+</Admonition>

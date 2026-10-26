@@ -1,0 +1,2 @@
+# This Dockerfile installs tools only and copies no source files.
+*

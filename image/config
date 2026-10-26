@@ -1,0 +1,20 @@
+# Raspberry Pi OS Lite plus Openstreamer; build.sh hands this to pi-gen
+IMG_NAME=openstreamer
+RELEASE=trixie
+STAGE_LIST="stage0 stage1 stage2 stage-openstreamer"
+DEPLOY_COMPRESSION=xz
+
+TARGET_HOSTNAME=openstreamer
+# The login for SSH, which stays off until switched on in the web interface
+FIRST_USER_NAME=openstreamer
+FIRST_USER_PASS=openstreamer
+DISABLE_FIRST_BOOT_USER_RENAME=1
+ENABLE_SSH=0
+# Imager offers no setup options for a custom image, and the stage purges
+# cloud-init, so its files on the boot partition would only mislead
+ENABLE_CLOUD_INIT=0
+
+LOCALE_DEFAULT=en_US.UTF-8
+KEYBOARD_KEYMAP=us
+KEYBOARD_LAYOUT="English (US)"
+TIMEZONE_DEFAULT=Etc/UTC

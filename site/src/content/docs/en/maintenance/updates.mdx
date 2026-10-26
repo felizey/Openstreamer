@@ -1,0 +1,23 @@
+---
+title: Updates
+description: Install a signed local Openstreamer package and roll back.
+order: 10
+---
+
+Everything is under **System → Updates**. Updating keeps your settings, password and recordings.
+
+Use **Check now** to check the latest stable release in the public [Openstreamer GitHub repository](https://github.com/felizey/Openstreamer/releases). The page links to signed update files attached to the release; it does not install them automatically. GitHub must be reachable from the browser running the Openstreamer interface.
+
+## Installing from files
+
+1. Choose the compatible release's single signed `.osupd` file under **Install from file**. A `.deb` file and its matching `.sig` are also accepted together.
+2. Wait for signature verification, then press **Install**.
+
+Video, streams and recordings stop while Openstreamer restarts. Keep power connected until the page reloads. Packages with an invalid signature are refused. If the new version does not start, the previous package is restored automatically.
+
+## Rolling back
+
+**Previous version → Roll back** installs the version that ran before. Rolling back again returns to the newer one.
+
+Signed packages use the Openstreamer update key. Install only compatible packages
+signed with that key.

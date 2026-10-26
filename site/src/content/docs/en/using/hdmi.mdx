@@ -1,0 +1,36 @@
+---
+title: HDMI output
+description: Show the video on a TV, monitor or projector.
+order: 40
+---
+
+
+Connect one or two screens before or after starting the Pi. Openstreamer shows the same
+video and splash screen on both connected micro-HDMI ports by default. Under
+**Display → HDMI → HDMI ports**, choose **Both HDMI ports**, **HDMI 0** or **HDMI 1**.
+Video is decoded once and shared between the outputs. The current mode is listed
+for each active screen. Connections are checked every second and display routes are rebuilt when screens change.
+
+| Setting            | What it does                                                                                                            |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| Show video on HDMI | Turn it off when nothing's plugged in: it frees the decoder and some CPU for streaming.                                 |
+| Resolution         | **Automatic** picks a progressive screen mode up to 1080p, near 60 Hz. Or choose a standard manual preset or a mode reported by the screen. |
+| Scaling            | **Fit** shows the whole picture, with bars if the shapes differ. **Fill** fills the screen and crops the edges.         |
+| Rotate 180°        | For a screen mounted upside down.                                                                                       |
+| Mirror             | Flips the picture left to right.                                                                                        |
+
+The list always includes 31 standard presets, even without a detected screen.
+It also includes additional modes reported by EDID. **p** means progressive frames;
+**i** means interlaced fields, with the displayed rate in fields per second.
+1080p60 and 1080i60 are separate timings. Standard interlaced presets cover
+1080, 576 and 480 lines; 720p and 4K presets are progressive.
+The aspect ratio note uses EDID physical dimensions, which a converter may report incorrectly.
+
+The resolution setting applies to each screen. A manual preset requests its exact
+standard timing, including 1920 × 1080p at 60.00 Hz. If the driver or screen rejects
+it, select another mode or Automatic in the web interface. Scaling, rotation and
+mirroring apply to both outputs. After HDMI cable changes, output is reconfigured
+automatically. A supported stream without IDR receives a new decoder startup frame.
+Reconfiguration can briefly interrupt both outputs.
+
+While there's no video, HDMI shows the [splash screen](/docs/using/splash-and-logo).

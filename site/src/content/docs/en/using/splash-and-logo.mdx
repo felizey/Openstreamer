@@ -1,0 +1,52 @@
+---
+title: Splash screen and logo
+description: What shows while there's no video, and putting a logo on the picture.
+order: 50
+---
+
+import Admonition from "../../../../components/docs/Admonition.astro";
+
+## Splash screen
+
+While there's no video, Openstreamer sends a splash screen instead: on HDMI, to
+browsers and to the streams. Recordings don't get it.
+
+By default it shows how to reach the device: its addresses, the access
+point's name and password, and a QR code to join it.
+
+Under **Display → Splash screen**:
+
+| Setting                              | What it does                                                           |
+| ------------------------------------ | ---------------------------------------------------------------------- |
+| Upload image                         | Your own picture instead of the default. **Use default** goes back.    |
+| Image scaling                        | **Fit** or **Fill**, for your image.                                   |
+| Show status over custom image        | Keeps the addresses and connection status along the bottom.            |
+| Show access point password on screen | Off hides the password and the QR code.                                |
+| Freeze on last frame                 | When the video stops, keep the last picture instead.                   |
+| Grayscale frozen frame               | Shows the frozen picture in grey, so it can't be taken for live video. |
+
+<Admonition type="tip">
+  In a public place, turn off **Show access point password on screen**, or
+  change the password under **Network**.
+</Admonition>
+
+## Video splash
+
+**Upload video** accepts local video files supported by FFmpeg, up to **256 MiB** and **5 minutes**. An input **MP4 must have an H.264 video track**. Upload progress is followed by processing on the device; wait until it finishes.
+
+The result is a silent **MP4, H.264 High Profile, 1920×1080, 30 FPS**, targeting **4 Mbit/s**, with **no B-frames** and a keyframe every second. It repeats while there is no live signal. A conversion error keeps the previous working splash.
+
+**Freeze on last frame** takes priority after a live signal stops. Turn it off to return to the clip. Image scaling and the status overlay apply to pictures, not the video clip.
+
+## Logo
+
+Under **Display → Logo**, drop in an image: PNG, WebP or JPEG, with
+transparency kept. Then drag it where you want it on the preview, and drag its
+corner to resize it, or use the **Size** slider. **Opacity** goes from 10 to
+100%, and **Show logo** turns it on and off without removing it.
+
+Where the logo appears depends on the source:
+
+- **DJI goggles**: on **HDMI** only, and in the browser view. The streams and
+  recordings carry the goggles' own video, untouched.
+- **USB camera**: in the video itself, so on every output and in recordings.

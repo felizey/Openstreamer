@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">Openstreamer</title>
+  <desc id="description">Your FPV feed, on every screen. DJI goggles to Raspberry Pi 4, HDMI, Browser, RTSP, SRT, RTMP and Recording.</desc>
+  <defs>
+    <radialGradient id="background" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(70 50) rotate(30) scale(1150 820)">
+      <stop stop-color="#383838"/>
+      <stop offset="1" stop-color="#101010"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1200 630) rotate(-150) scale(750 500)">
+      <stop stop-color="#303030" stop-opacity="0.75"/>
+      <stop offset="1" stop-color="#101010" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#background)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="90" y="269" fill="#f5f5f5" font-size="92" font-weight="700" letter-spacing="-2">Openstreamer</text>
+    <text x="91" y="341" fill="#a3a3a3" font-size="39">Your FPV feed, on every screen.</text>
+    <text x="91" y="437" fill="#d4d4d4" font-size="28">DJI goggles → Raspberry Pi 4 → HDMI · Browser · RTSP · SRT · RTMP · Recording</text>
+  </g>
+</svg>

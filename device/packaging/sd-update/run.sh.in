@@ -1,0 +1,75 @@
+#!/bin/bash
+# One-time update scheduled from the removable boot partition.
+set -euo pipefail
+BOOT=${OPENSTREAMER_SD_UPDATE_BOOT:-/boot/firmware}
+DIR="$BOOT/openstreamer-update"
+STATE=${OPENSTREAMER_SD_UPDATE_STATE:-/var/lib/openstreamer/update}
+PACKAGE="$DIR/package.deb"
+VERSION='@VERSION@'
+HEALTH_VERSION='@HEALTH_VERSION@'
+EXPECTED='@SHA256@'
+exec >"$DIR/install.log" 2>&1
+finish() {
+    local code=$?
+    if [ "$code" = 0 ]; then printf 'SUCCESS: Openstreamer %s installed\n' "$VERSION" >"$DIR/result.txt"
+    else printf 'FAILED (%s): see install.log; original boot command line restored\n' "$code" >"$DIR/result.txt"; fi
+    sync
+}
+trap finish EXIT
+# Always remove the one-shot boot hook before attempting installation. A
+# failed package must never put this device into an endless update/reboot loop.
+if [ -s "$DIR/cmdline.before" ]; then
+    cp "$DIR/cmdline.before" "$BOOT/cmdline.openstreamer-restored"
+else
+    cmdline=$(cat "$BOOT/cmdline.txt")
+    hook='systemd.run="/bin/bash /boot/firmware/openstreamer-update/run.sh"'
+    cmdline=${cmdline//"$hook"/}
+    cmdline=${cmdline//'systemd.run=/boot/firmware/openstreamer-update/run.sh'/}
+    cmdline=${cmdline//'systemd.run_success_action=reboot'/}
+    cmdline=${cmdline//'systemd.run_failure_action=reboot'/}
+    printf '%s\n' "$cmdline" >"$BOOT/cmdline.openstreamer-restored"
+fi
+mv -f "$BOOT/cmdline.openstreamer-restored" "$BOOT/cmdline.txt"
+sync
+printf '%s  %s\n' "$EXPECTED" "$PACKAGE" | sha256sum --check
+[ "$(dpkg --print-architecture)" = arm64 ]
+[ "$(dpkg-deb -f "$PACKAGE" Package)" = openstreamer ]
+[ "$(dpkg-deb -f "$PACKAGE" Architecture)" = arm64 ]
+[ "$(dpkg-deb -f "$PACKAGE" Version)" = "$VERSION" ]
+old=$(dpkg-query -W -f='${Version}' openstreamer)
+if dpkg --compare-versions "$old" ge "$VERSION"; then
+    echo "Already running version $old; no package installed."
+    exit 0
+fi
+export DEBIAN_FRONTEND=noninteractive
+if systemctl cat openstreamer-data.service >/dev/null 2>&1; then
+    systemctl start openstreamer-data.service
+fi
+mkdir -p "$STATE"
+rollback() {
+    if [ -f "$STATE/current.deb" ]; then
+        apt-get install -y --allow-downgrades "$STATE/current.deb" || true
+        systemctl restart openstreamer.service || true
+    fi
+}
+if ! apt-get install -y "$PACKAGE"; then
+    echo 'Package installation failed; trying the cached previous package.'
+    rollback
+    exit 1
+fi
+systemctl daemon-reload
+systemctl restart openstreamer.service
+healthy=0
+for ((attempt=0;attempt<40;attempt++)); do
+    if curl --fail --silent --max-time 2 http://localhost/health | grep -qF "\"version\":\"$HEALTH_VERSION\""; then healthy=1; break; fi
+    sleep 2
+done
+if [ "$healthy" != 1 ]; then
+    echo 'New version did not answer; restoring the cached previous package.'
+    rollback
+    exit 1
+fi
+[ ! -f "$STATE/current.deb" ] || cp "$STATE/current.deb" "$STATE/previous.deb"
+cp "$PACKAGE" "$STATE/current.deb"
+echo 0 >"$STATE/result"
+echo "Openstreamer $VERSION is ready; normal boot resumes after reboot."

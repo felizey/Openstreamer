@@ -1,0 +1,47 @@
+# Machine-local diagnostics and verification outputs
+.verification/
+**/.verification/
+
+# Build outputs and dependencies
+**/node_modules/
+**/.pnpm-store/
+**/target/
+**/dist/
+**/dist-ssr/
+**/.astro/
+**/.wrangler/
+**/__pycache__/
+*.py[cod]
+**/.pytest_cache/
+**/.mypy_cache/
+**/*.log
+**/*.tsbuildinfo
+
+# Generated OS images and packages
+/image/.pi-gen/
+/image/.pi-gen-openstreamer-test/
+/image/deploy/
+*.deb
+*.deb.sig
+*.osupd
+*.img
+*.img.xz
+
+# Local environment and private signing material
+.env
+.env.*
+!.env.example
+!**/.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*signing-key*
+id_ed25519*
+id_rsa*
+
+# Desktop metadata
+.DS_Store
+Thumbs.db
+desktop.ini
+.build-package.lock
